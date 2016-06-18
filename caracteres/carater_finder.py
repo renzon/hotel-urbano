@@ -1,8 +1,24 @@
 import sys
 
 import unicodedata
+from collections import defaultdict
+from functools import lru_cache
+
+_cache = defaultdict(list)
 
 
+for n in range(1, sys.maxunicode):
+    char = chr(n)
+    try:
+        char_name = unicodedata.name(char)
+    except ValueError:
+        pass
+    else:
+        keys = char_name.split()
+        for k in keys:
+            _cache[k].append((char, char_name))
+
+@lru_cache()
 def procurar_char(palavra):
     """
     Procura caracter que contenha palavra em seu nome
@@ -24,14 +40,7 @@ def procurar_char(palavra):
     True
 
     """
-    for n in range(1, sys.maxunicode):
-        char = chr(n)
-        try:
-            char_name = unicodedata.name(char)
-        except ValueError:
-            pass
-        else:
-            print(n, char_name)
+    return _cache[palavra.upper()]
 
 
 if __name__ == '__main__':
