@@ -1,4 +1,7 @@
 lista = 'caqui banana abacaxi morango pequi'.split()
+print(', '.join(lista))
+
+
 
 print(sorted(lista))
 print(sorted(lista, key=len))
@@ -14,7 +17,7 @@ print(sorted(lista, key=lambda palavra: palavra[::-1]))
 print(lista.pop())
 lista.insert(0, 'mamao')
 print(lista)
-# print(lista.index('nao existe'))
+# print(frutas.index('nao existe'))
 print(lista.index('morango'))
 lista.append('morango')
 print(lista)
