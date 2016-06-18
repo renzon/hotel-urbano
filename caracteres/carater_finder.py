@@ -1,3 +1,8 @@
+import sys
+
+import unicodedata
+
+
 def procurar_char(palavra):
     """
     Procura caracter que contenha palavra em seu nome
@@ -5,8 +10,10 @@ def procurar_char(palavra):
     :return: lista com tuplas (caracter, nome do carecter)
 
     # Encontrar naipes
-    >>> procurar_char('suit')
-    [('♠','BLACK SPADE SUIT'),('♥','RED HEART SUIT'),('♦','RED DIAMOND SUIT'),('♣','BLACK CLUB SUIT'),('♤','WHITE SPADE SUIT'),('♡','WHITE HEART SUIT'),('♢','WHITE DIAMOND SUIT'),('♧','WHITE CLUB SUIT')]
+    >>> all_suit = procurar_char('suit')
+    >>> four_suits = {('♤','WHITE SPADE SUIT'),('♡','WHITE HEART SUIT'),('♢','WHITE DIAMOND SUIT'),('♧','WHITE CLUB SUIT')}
+    >>> four_suits == set(all_suit).intersection(four_suits)
+    True
 
     # Funciona com palavra do meio
     >>> ('♠','BLACK SPADE SUIT') in procurar_char('spade')
@@ -17,4 +24,15 @@ def procurar_char(palavra):
     True
 
     """
-    return 5
+    for n in range(1, sys.maxunicode):
+        char = chr(n)
+        try:
+            char_name = unicodedata.name(char)
+        except ValueError:
+            pass
+        else:
+            print(n, char_name)
+
+
+if __name__ == '__main__':
+    print(procurar_char('suit'))
