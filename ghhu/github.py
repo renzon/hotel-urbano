@@ -3,6 +3,8 @@ import json
 import requests
 
 
+
+
 def avatar(nome):
     r = requests.get('https://api.github.com/users/{nome}'.format(nome=nome))
     js = json.loads(r.text)
