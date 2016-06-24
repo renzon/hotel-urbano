@@ -16,11 +16,12 @@ class TelefonistaTestesBasicos(unittest.TestCase):
 
         telefone_mock = TelefoneMock()
         telefonista = Telefonista()
+        telefonista._telefone = telefone_mock
         telefonista.adicionar_contato('Renzo', '2345678')
-        ligacao_feita = telefonista.ligar_para_todos_contatos(telefone=telefone_mock)
+        ligacao_feita = telefonista.ligar_para_todos_contatos()
         self.assertListEqual(['Ligando de mentira para 2345678 - Renzo'], ligacao_feita)
         telefonista.adicionar_contato('Henrique', '8765432')
-        ligacoes_feitas = telefonista.ligar_para_todos_contatos(telefone=telefone_mock)
+        ligacoes_feitas = telefonista.ligar_para_todos_contatos()
         self.assertListEqual(['Ligando de mentira para 2345678 - Renzo',
                               'Ligando de mentira para 8765432 - Henrique'], ligacoes_feitas)
 
