@@ -1,36 +1,38 @@
 import unittest
+from unittest.mock import Mock
 
 from ghhu.telefonista import Telefonista
 
 
 class TelefonistaTestesBasicos(unittest.TestCase):
+    def setUp(self):
+        self.telefonista = Telefonista()
+        self.telefone_mock = Mock()
+        self.telefone_mock.telefonar = Mock(return_value='Ligando de mentira para 2345678')
+        self.telefonista._telefone = self.telefone_mock
+        self.telefonista.adicionar_contato('Renzo', '2345678')
+
     def teste_adicionar_um_contato(self):
         telefonista = Telefonista()
         telefonista.adicionar_contato('Renzo', '2345678')
         self.assertEqual([('Renzo', '2345678')], telefonista._contatos)
 
     def teste_ligar_para_todos_contatos(self):
-        class TelefoneMock():
-            def __init__(self):
-                self.logs = []
-
-            def telefonar(self, numero):
-                self.logs.append(numero)
-                return 'Ligando de mentira para %s' % numero
-
-        telefone_mock = TelefoneMock()
-        telefonista = Telefonista()
-        telefonista._telefone = telefone_mock
-        telefonista.adicionar_contato('Renzo', '2345678')
-        ligacao_feita = telefonista.ligar_para_todos_contatos()
+        ligacao_feita = self.telefonista.ligar_para_todos_contatos()
         self.assertListEqual(['Ligando de mentira para 2345678 - Renzo'], ligacao_feita)
-        self.assertListEqual(['2345678'], telefone_mock.logs)
+        self.telefone_mock.telefonar.assert_called_once_with('2345678')
 
-        telefonista.adicionar_contato('Henrique', '8765432')
-        ligacoes_feitas = telefonista.ligar_para_todos_contatos()
+    def test_ligar_para_dois_contatos(self):
+        self.telefonista.adicionar_contato('Henrique', '8765432')
+
+        def telefonar(numero):
+            return 'Ligando de mentira para %s' % numero
+
+        self.telefone_mock.telefonar.side_effect = telefonar
+
+        ligacoes_feitas = self.telefonista.ligar_para_todos_contatos()
         self.assertListEqual(['Ligando de mentira para 2345678 - Renzo',
                               'Ligando de mentira para 8765432 - Henrique'], ligacoes_feitas)
-        self.assertListEqual(['2345678','2345678','8765432'], telefone_mock.logs)
 
 
 class TelefonistaTestesIntegracao(unittest.TestCase):
