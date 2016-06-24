@@ -33,6 +33,9 @@ class TelefonistaTestesBasicos(unittest.TestCase):
         ligacoes_feitas = self.telefonista.ligar_para_todos_contatos()
         self.assertListEqual(['Ligando de mentira para 2345678 - Renzo',
                               'Ligando de mentira para 8765432 - Henrique'], ligacoes_feitas)
+        self.assertEqual(2, self.telefone_mock.telefonar.call_count)
+        self.telefone_mock.telefonar.assert_any_call('2345678')
+        self.telefone_mock.telefonar.assert_any_call('8765432')
 
 
 class TelefonistaTestesIntegracao(unittest.TestCase):
