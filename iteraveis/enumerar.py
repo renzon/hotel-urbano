@@ -1,5 +1,5 @@
 """
->>> g = enumerar(range(3), 1)
+>>> g = enumerar(range(3), inicio=1)
 >>> next(g)
 (1, 0)
 >>> next(g)
@@ -12,3 +12,14 @@ Traceback (most recent call last):
 StopIteration
 
 """
+
+
+def infinito(inicio):
+    while True:
+        yield inicio
+        inicio += 1
+
+
+def enumerar(iteravel, inicio):
+    yield from zip(infinito(inicio), iteravel)
+
