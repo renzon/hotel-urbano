@@ -1,9 +1,8 @@
 from funcoes import flask_poc
 from funcoes.flask_poc import route, login_required, MANAGER, ADMIN
 
-
-@route('/')
 @login_required(MANAGER)
+@route('/')
 def home(usuario_logado):
     return 'Home Page %s' % usuario_logado
 
