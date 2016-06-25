@@ -8,7 +8,7 @@ def home(usuario_logado):
 
 
 @route('/usuarios')
-@login_required(ADMIN)
+@login_required
 def usuarios(usuario_logado):
     """
     Pagina de usuarios
