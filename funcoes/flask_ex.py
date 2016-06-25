@@ -30,3 +30,4 @@ if __name__ == '__main__':
     print(usuarios('diego'))
     print(usuarios.__name__)
     print(help(usuarios))
+    print(usuarios.__closure__[0].cell_contents)
